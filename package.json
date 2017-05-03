@@ -1,0 +1,16 @@
+{
+  "name": "capstone",
+  "version": "1.0.0",
+  "description": "UI For Capstone Project",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/telelu03/capstone",
+  "keywords": [
+  ],
+  "author": "Tayo",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  }
+}

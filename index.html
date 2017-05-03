@@ -1,0 +1,173 @@
+<!-- Olutayo Elelu -->
+<!-- R10417089 -->
+<!-- CS 4366 Senior Capstone - Caffiene Routine -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Caffeine Routine</title>
+  </head>
+  
+  <style>
+	body
+	{
+		background-color: #ffcb9e;
+	}
+	#picker
+	{
+		width: 100%;
+		padding: 50px 0;
+		text-align: center;
+		background-color: #a38259;
+		margin-top:20px;
+	}
+  </style>
+  
+  <body>
+    <!-- <h1>Caffeine Routine!</h1> -->
+	<img src="Logo.png" alt="Stickman" width="500" height="253">
+    </br>A Desktop Application to remotely control your Keurig Coffee Maker.<br/>
+	</br>For Senior Capstone, CS4366, Spring 2017.<br/>
+	</br>Designed with Electron.<br/>
+	</br><br/>
+	
+	<!-- On Start: Hide the schedule picker -->
+	<script>
+	function startFunction()
+	{	
+		var y = document.getElementById("picker");
+		y.style.display = 'none';
+		
+		window.onload = startFunction;
+	}
+	window.onload = startFunction;
+	</script>
+	
+	<!-- Heat Button -->
+	<button type="button" id="heat" onclick="heatFunction()">Heat Keurig!</button>
+
+	<!-- Heat Function -->
+	<script>
+	function heatFunction()
+	{
+		// X is the button. Disable the button during HTTP Post
+		var x = document.getElementById("heat");
+		x.disabled = true;
+		
+		// Send the POST to the Express Server
+		var request = require('request');
+		request.post
+		(
+			'http://localhost:3000/heat',
+			{ json: {} },
+			function (error, response, body)
+			{
+				console.log(response);
+			}
+		);
+		
+		// Wait 1 Sec to restore button
+		setTimeout(function(){x.disabled = false;}, 1000);
+	}
+	</script>
+	
+	
+	<!-- Brew Now Button -->
+	<button type="button" id="brew_now" onclick="brewFunction()">Brew Now!</button>
+
+	<!-- Brew Function -->
+	<script>
+	function brewFunction()
+	{
+		// X is the button. Disable the button during HTTP Post
+		var x = document.getElementById("brew_now");
+		x.disabled = true;
+		
+		var request = require('request');
+
+		request.post
+		(
+			'http://localhost:3000/brew',
+			{ json: {size:'small'} },
+			function (error, response, body)
+			{
+				console.log(response);
+			}
+		);
+		
+		// Wait 1 Sec to restore button
+		setTimeout(function(){x.disabled = false;}, 1000);
+	}
+	</script>
+	
+	<!-- Schedule Button -->
+	<button type="button" id="schedule" onclick="scheduleFunction()">Schedule A Cup!</button>
+	
+	<!-- Schedule Picker HTML Element-->
+	<div id="picker">
+		Schedule picker goes here.
+		
+		<form action="http://localhost:3000/brew">
+		Coffee Time? (date and time):
+		<input type="datetime-local" id="sched" name="coffee_time">
+		<!-- <input type="submit" id="send" onclick="hideFunction() value="Send"> -->
+		</form>
+		
+		<button type="button" id="dt_pick" onclick="hideFunction()">Submit.</button>
+	</div>
+	
+	<!-- Schedule Function will enable the HTML Element & disable the button-->
+	<script>
+	function scheduleFunction()
+	{
+		var x = document.getElementById("schedule");   
+		x.disabled = true;
+		
+		var y = document.getElementById("picker");   
+		
+		if(y.style.display === 'none')
+		{
+			y.style.display = 'block';
+		}
+		else
+		{
+			y.style.display = 'none';
+		}	
+	}
+	</script>
+	
+	<!-- When submit is selected, will enable the schedule picker button and hide the date/time picker -->
+	<script>
+	function hideFunction()
+	{
+		// Enable the button
+		var x = document.getElementById("schedule");   
+		x.disabled = false;
+		
+		// Hide the picker
+		var y = document.getElementById("picker");
+		y.style.display = 'none';		
+	}
+	</script>
+	
+	
+	<!-- <!-- Status Button -->
+	<!-- <button type="button" id="status" onclick="statusFunction()">Status/Sensors</button> -->
+
+	<!-- <!-- Status Function -->
+	<!-- <script> -->
+	<!-- function statusFunction() -->
+	<!-- { -->
+		<!-- var x = document.getElementById("status"); -->
+		<!-- x.disabled = true; -->
+	<!-- } -->
+	<!-- </script> -->
+  
+  <!-- </body> -->
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script>
+</html>
